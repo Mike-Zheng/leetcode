@@ -4,26 +4,27 @@
  * @return {string}
  */
 var convert = function (s, numRows) {
-  if (s.length === 1 || numRows === 1) return s;
-  let zq = [];
-  for (var i = 0; i < numRows; i++) {
-    zq[i] = [];
+  let stringList = s.split("");
+  if (stringList.length <= 1 || numRows <= 1) {
+    return s;
   }
 
-  let round_length = 2 * numRows - 2;
+  let zq = Array(numRows).fill("");
 
-  s.split("").forEach((_, j) => {
-    let index_in_circle = (j + 1) % round_length;
-    if (index_in_circle === 0) index_in_circle = round_length;
+  let oneRoundLength = 2 * numRows - 2;
 
-    if (index_in_circle <= numRows) {
-      zq[index_in_circle - 1].push(_);
+  stringList.forEach((char, j) => {
+    let indexInCircle = (j + 1) % oneRoundLength;
+    if (indexInCircle === 0) indexInCircle = oneRoundLength;
+
+    if (indexInCircle <= numRows) {
+      zq[indexInCircle - 1] += char;
     }
 
-    if (index_in_circle > numRows) {
-      zq[2 * numRows - index_in_circle - 1].push(_);
+    if (indexInCircle > numRows) {
+      zq[2 * numRows - indexInCircle - 1] += char;
     }
   });
 
-  return zq.map((_) => _.join("")).join("");
+  return zq.join("");
 };
