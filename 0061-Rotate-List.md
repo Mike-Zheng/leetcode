@@ -1,4 +1,7 @@
-## first take
+# 0061-Rotate-List
+
+
+**first take**
 
 一開始沒看清楚題目以為是向左轉真簡單
 
