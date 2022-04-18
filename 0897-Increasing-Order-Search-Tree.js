@@ -11,25 +11,22 @@
  * @return {TreeNode}
  */
 var increasingBST = function (root) {
-    var dic = {};
-    var bs = (node) => {
-        if (!node) return;
-        dic[node.val + ''] = node;
-        bs(node.left);
-        bs(node.right);
-    };
-    bs(root);
+  var list = [];
+  var bs = (node) => {
+    if (!node) return;
+    bs(node.left);
+    list.push(node.val);
+    bs(node.right);
+  };
+  bs(root);
 
-    let order = Object.keys(dic)
-        .map((_) => Number(_))
-        .sort((a, b) => a - b);
+  var newNode = (n) => {
+    if (n < list.length)
+      return new TreeNode(list[n], null, newNode(n + 1));
+    else return null;
+  };
 
-    var getNewNode = (n) => {
-        if (n < order.length) return new TreeNode(order[n], null, getNewNode(n + 1));
-        else return null;
-    };
+  let ans = new TreeNode(list[0], null, newNode(1));
 
-    let ans = new TreeNode(order[0], null, getNewNode(1));
-
-    return ans;
+  return ans;
 };
