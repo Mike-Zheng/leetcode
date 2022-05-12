@@ -3,33 +3,27 @@
  * @return {number[][]}
  */
 var permuteUnique = function (nums) {
-    let length = nums.length;
-    let orderList = nums.map((_, idx) => idx);
-    let allset = [];
+    var record = {};
     let output = [];
-    const dfs = (current, idx) => {
-        if (idx === length) {
-            allset.push(current);
+    const dfs = (current, rest) => {
+        let restLength = rest.length;
+        if (restLength === 0) {
+            let key = current.join('');
+            if (!record[key]) {
+                output.push(current);
+                record[key] = true;
+            }
+            return;
         }
 
-        orderList.forEach((item) => {
-            if (current.indexOf(item) == -1) {
-                dfs([...current, item], idx + 1);
-            }
-        });
+        for (let i = 0; i < restLength; i++) {
+            let newRest = [...rest];
+            newRest.splice(i, 1);
+            dfs([...current, rest[i]], newRest);
+        }
     };
 
-    dfs([], 0);
-
-    var recordMap = {};
-    allset.forEach((set) => {
-        let record = set.map((_) => nums[_]);
-        let key = record.reduce((acc, item) => acc + item, '');
-        if (!recordMap[key]) {
-            output.push(record);
-            recordMap[key] = true;
-        }
-    });
+    dfs([], [...nums]);
 
     return output;
 };
