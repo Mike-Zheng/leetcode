@@ -12,18 +12,15 @@
  * @return {TreeNode}
  */
 
-var getTargetCopy = function (original, cloned, target) {
-    let dicCloned = {};
-
+ var getTargetCopy = function (original, cloned, target) {
+    let output;
     const dfs = (node) => {
         if (!node) return;
-
-        dicCloned[node.val] = node;
+        if (node.val == target.val) output = node;
         dfs(node.left);
         dfs(node.right);
     };
 
     dfs(cloned);
-
-    return dicCloned[target.val];
+    return output;
 };
