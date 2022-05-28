@@ -2,13 +2,8 @@
  * @param {number[]} nums
  * @return {number}
  */
- var missingNumber = function (nums) {
-
-    nums.sort((a, b) => a - b);
+var missingNumber = function (nums) {
+    let sumValue = nums.reduce((acc, item) => acc + item, 0);
     let m = nums.length;
-    for (let i = 0; i < m; i++) {
-        if (nums[i] !== i) return i;
-    }
-    return m;
+    return (m * (m + 1)) / 2 - sumValue;
 };
-
