@@ -1,4 +1,4 @@
-
+package main
 
 func missingNumber(nums []int) int {
 	var sumIndex = 0
