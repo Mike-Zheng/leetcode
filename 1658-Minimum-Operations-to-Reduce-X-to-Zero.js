@@ -11,28 +11,16 @@ var minOperations = function (nums, x) {
 
     let preSumHash = {};
 
-    const sumRange = (x, y) => {
-        if (preSumHash[[x, y]]) {
-            return preSumHash[[x, y]];
-        }
+    preSumHash[[0, 0]] = nums[0];
+    for (let j = 1; j < length; j++) {
+        preSumHash[[0, j]] = preSumHash[[0, j - 1]] + nums[j];
+    }
 
-        if (preSumHash[[x, y + 1]]) {
-            preSumHash[[x, y]] = preSumHash[[x, y + 1]] - nums[y + 1];
-            return preSumHash[[x, y]];
+    for (let i = 1; i < length; i++) {
+        for (let j = i; j < length; j++) {
+            preSumHash[[i, j]] = preSumHash[[i - 1, j]] - preSumHash[[i - 1, i - 1]];
         }
-
-        if (preSumHash[[x - 1, y]]) {
-            preSumHash[[x, y]] = preSumHash[[x - 1, y]] - nums[x - 1];
-            return preSumHash[[x, y]];
-        }
-
-        let s = 0;
-        for (let i = x; i <= y; i++) {
-            s += nums[i];
-        }
-        preSumHash[[x, y]] = s;
-        return s;
-    };
+    }
 
     if (sum == x) {
         output = length;
@@ -40,7 +28,7 @@ var minOperations = function (nums, x) {
 
     for (let i = 0; i < length; i++) {
         for (let j = length - 1; j >= i; j--) {
-            let scopeSum = sumRange(i, j);
+            let scopeSum = preSumHash[[i, j]];
 
             if (scopeSum == sum - x) {
                 let ans = length - j + i - 1;
