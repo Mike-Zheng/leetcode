@@ -3,30 +3,20 @@
  * @param {string} pattern
  * @return {string[]}
  */
- var findAndReplacePattern = function (words, pattern) {
-  const ps = (word) => {
-    let list = [...word];
-    let map = {};
-    let id = 1;
-    let ans = "";
-    for (const char of list) {
-      if (!map[char]) {
-        map[char] = id;
-        id++;
-      }
+var findAndReplacePattern = function (words, pattern) {
+  const p = ps(pattern);
+  return words.filter((_) => ps(_) === p);
+};
 
-      ans = ans + "/" + map[char];
+const ps = (word) => {
+  let map = {};
+  let id = 1;
+  return [...word].reduce((acc, char) => {
+    if (!map[char]) {
+      map[char] = id;
+      id++;
     }
-
-    return ans;
-  };
-
-  let ret = [];
-  let p = ps(pattern);
-  words.forEach((_) => {
-    const wp = ps(_);
-    if (wp === p) ret.push(_);
-  });
-
-  return ret;
+    acc = acc + "/" + map[char];
+    return acc;
+  }, "");
 };
