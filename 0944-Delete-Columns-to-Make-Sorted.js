@@ -3,7 +3,19 @@
  * @return {number}
  */
 var minDeletionSize = function (strs) {
-  const sp = strs.map((item) => item.split("").map((chr) => chr.charCodeAt(0)));
-  const deltaT = sp[0].map((_, idx) => sp.map((item) => item[idx]));
-  return deltaT.filter((item) => [...item].sort((a, b) => a - b).join("") !==item.join("")).length;
+  let delCount = 0;
+  const m = strs.length;
+  const n = strs[0].length;
+  for (let j = 0; j < n; j++) {
+    for (let i = 0; i < m - 1; i++) {
+      let str = strs[i][j];
+      let strNext = strs[i + 1][j];
+      if (str.charAt(0) > strNext.charAt(0)) {
+        delCount++;
+        break;
+      }
+    }
+  }
+
+  return delCount;
 };
